@@ -1,10 +1,8 @@
 "use client"; // For components that need React hooks and browser APIs, SSR (server side rendering) has to be disabled. Read more here: https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering
 
 import { useRouter } from "next/navigation"; // use NextJS router for navigation
-import { useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { Button, Form, Input, Alert } from "antd";
-import styles from "@/styles/page.module.css";
 
 interface FormFieldProps {
   username: string;
@@ -19,6 +17,7 @@ const Register: React.FC = () => {
 
   const handleRegister = async (values: FormFieldProps) => {
 
+    // Check if the passwords match
     if (values.password !== values.confirmPassword) {
       alert("Passwords do not match!");
       return;
@@ -26,7 +25,7 @@ const Register: React.FC = () => {
 
     try {
       // Call the API service and let it handle JSON serialization and error handling
-      const response = await apiService.post("/api/users/register", values);
+      const response = await apiService.post("users", values);
 
       // Navigate to the login page after successful registration
       router.push("/login");
