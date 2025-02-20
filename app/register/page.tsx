@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation"; // use NextJS router for navigation
 import { useApi } from "@/hooks/useApi";
-import { Button, Form, Input, Alert } from "antd";
+import { Button, Form, Input } from "antd";
 
 interface FormFieldProps {
+  name: string;
   username: string;
   password: string;
   confirmPassword: string;
@@ -25,7 +26,7 @@ const Register: React.FC = () => {
 
     try {
       // Call the API service and let it handle JSON serialization and error handling
-      const response = await apiService.post("users", values);
+      const response = await apiService.post("/users", values);
 
       // Navigate to the login page after successful registration
       router.push("/login");
@@ -48,6 +49,14 @@ const Register: React.FC = () => {
         onFinish={handleRegister}
         layout="vertical"
       >
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ required: true, message: "Please input your name!" }]}
+        >
+          <Input placeholder="Enter name" />
+        </Form.Item>
+
         <Form.Item
           name="username"
           label="Username"
