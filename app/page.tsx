@@ -12,8 +12,8 @@ export default function Home() {
   const router = useRouter();
   return (
     <div className={styles.page}>
-      <Navbar names={["Login", "Register", "About me"]} 
-              links={[() => router.push("/login"), () => router.push("/register"), "https://www.linkedin.com/in/matteo-iulian-adam-16355a225"]} />        
+      <Navbar names={["Login", "About me"]} 
+              links={[() => router.push("/login"), "https://www.linkedin.com/in/matteo-iulian-adam-16355a225"]} />        
       
       <main className={styles.main}>
         <h1 className={styles.centeredText}>Welcome to Matteo&apos;s website!</h1> {/* Escaped the single quote */}
