@@ -3,7 +3,7 @@ import "@ant-design/v5-patch-for-react-19";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "antd";
-import { BookOutlined, CodeOutlined, GlobalOutlined } from "@ant-design/icons";
+import { BookOutlined, CodeOutlined } from "@ant-design/icons"; // Removed GlobalOutlined
 import styles from "@/styles/page.module.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from "./components/Navbar";
@@ -16,10 +16,8 @@ export default function Home() {
       <Navbar names={["Login", "Register", "About me"]} 
               links={[() => router.push("/login"), () => router.push("/register"), "https://www.linkedin.com/in/matteo-iulian-adam-16355a225"]} />        
       
-      
-      
       <main className={styles.main}>
-        <h1 className={styles.centeredText}>Welcome to Matteo's website!</h1>
+        <h1 className={styles.centeredText}>Welcome to Matteo&apos;s website!</h1> {/* Escaped the single quote */}
         <Carousel num={6}></Carousel>
       </main>
 
