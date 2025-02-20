@@ -27,7 +27,8 @@ const Register: React.FC = () => {
     try {
       // Call the API service and let it handle JSON serialization and error handling
       const response = await apiService.post("/users", values);
-
+      // Handle the response (e.g., display a success message)
+      console.log("Registration successful:", response);
       // Navigate to the login page after successful registration
       router.push("/login");
     } catch (error) {
