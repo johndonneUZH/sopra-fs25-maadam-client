@@ -6,8 +6,6 @@ import { isProduction } from "@/utils/environment";
  * In development, it returns "http://localhost:8080".
  */
 
-const NEXT_PUBLIC_PROD_API_URL = "sopra-fs25-maadam-server.oa.r.appspot.com";
-
 export function getApiDomain(): string {
   const prodUrl = process.env.NEXT_PUBLIC_PROD_API_URL ||
     "http://localhost:8080"; // TODO: update with your production URL as needed.
