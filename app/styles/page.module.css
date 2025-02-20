@@ -16,6 +16,10 @@
   font-family: var(--font-geist-sans);
 }
 
+.centeredText {
+  text-align: center;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
