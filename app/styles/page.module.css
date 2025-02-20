@@ -103,6 +103,9 @@ a.secondary {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .footer img {

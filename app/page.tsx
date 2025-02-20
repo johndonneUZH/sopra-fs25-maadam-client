@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
   return (
     <div className={styles.page}>
-      <Navbar names={["Login", "About me"]} 
+      <Navbar names={["Account", "About me"]} 
               links={[() => router.push("/login"), "https://www.linkedin.com/in/matteo-iulian-adam-16355a225"]} />        
       
       <main className={styles.main}>

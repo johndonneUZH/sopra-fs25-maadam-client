@@ -77,6 +77,9 @@ const Login: React.FC = () => {
             Login
           </Button>
         </Form.Item>
+        <footer>
+          <a onClick={() => router.push("/register")}>Not signed up?</a>
+        </footer>
       </Form>
     </div>
   );
