@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface Props {
   num: number;
@@ -20,7 +21,7 @@ const Carousel = ({ num }: Props) => {
       <div className="carousel-inner">
         {Array.from({ length: num }).map((_, index) => (
           <div key={index} className={`carousel-item ${index === currentIndex ? 'active' : ''}`}>
-            <img src={`https://picsum.photos/800/500?grayscale&random=${index}`} className="d-block w-100" alt={`Slide ${index + 1}`} />
+            <Image src={`https://picsum.photos/800/500?grayscale&random=${index}`} className="d-block w-100" alt={`Slide ${index + 1}`} width={800} height={500} />
           </div>
         ))}
       </div>
@@ -37,3 +38,5 @@ const Carousel = ({ num }: Props) => {
 };
 
 export default Carousel;
+
+
