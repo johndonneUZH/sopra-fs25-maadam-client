@@ -5,8 +5,9 @@ import { useApi } from "@/hooks/useApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { User } from "@/types/user";
 import { Button, Form, Input } from "antd";
+import HomeIcon from "@/components/HomeIcon"; 
 // Optionally, you can import a CSS module or file for additional styling:
-// import styles from "@/styles/page.module.css";
+import styles from "@/styles/page.module.css";
 
 interface FormFieldProps {
   label: string;
@@ -38,7 +39,7 @@ const Login: React.FC = () => {
       }
 
       // Navigate to the user overview
-      router.push("/users/dashboard");
+      router.push("/users");
     } catch (error) {
       if (error instanceof Error) {
         alert(`Something went wrong during the login:\n${error.message}`);
@@ -49,38 +50,43 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <Form
-        form={form}
-        name="login"
-        size="large"
-        variant="outlined"
-        onFinish={handleLogin}
-        layout="vertical"
-      >
-        <Form.Item
-          name="username"
-          label="Username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+    <div>
+      <div className={styles.homeIcon}>
+        <HomeIcon />
+      </div>
+      <div className="login-container">
+        <Form
+          form={form}
+          name="login"
+          size="large"
+          variant="outlined"
+          onFinish={handleLogin}
+          layout="vertical"
         >
-          <Input placeholder="Enter username" />
-        </Form.Item>
-        <Form.Item
-          name="name"
-          label="Name"
-          rules={[{ required: true, message: "Please input your name!" }]}
-        >
-          <Input placeholder="Enter name" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-button">
-            Login
-          </Button>
-        </Form.Item>
-        <footer>
-          <a onClick={() => router.push("/register")}>Not signed up?</a>
-        </footer>
-      </Form>
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input placeholder="Enter username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input placeholder="Enter password" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-button">
+              Login
+            </Button>
+          </Form.Item>
+          <footer>
+            <a onClick={() => router.push("/register")}>Not signed up?</a>
+          </footer>
+        </Form>
+      </div>
     </div>
   );
 };

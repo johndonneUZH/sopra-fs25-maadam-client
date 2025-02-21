@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { Card, Button, Form } from "antd";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getApiDomain } from "@/utils/domain";
 import styles from "@/styles/page.module.css";
@@ -43,7 +44,19 @@ const UserProfile = () => {
 
   return (
     <div className="login-container">
+
       <Card className={styles.card}>
+        <div className={styles.profilePicWrapper}>
+          <div className={styles.profilePic}>
+            <Image 
+              src={`https://picsum.photos/800/500?grayscale&random=${id}`} 
+              className={styles.profilePicImage} 
+              alt="Profile picture" 
+              width={150} 
+              height={150} 
+            />
+          </div>
+        </div>
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Username:</strong> {user.username}</p>
         <p><strong>Status:</strong> {user.status}</p>

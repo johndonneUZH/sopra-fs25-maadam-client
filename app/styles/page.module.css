@@ -190,9 +190,11 @@ a.secondary {
 
 .card p {
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 15px;
+  text-align: center; /* Centers the text horizontally */
 }
+
 
 .card p strong {
   color: #007bff;
@@ -203,7 +205,7 @@ a.secondary {
   padding: 15px;
   font-size: 18px; 
   background-color: #ff4d4f;
-  color: #fff;
+  color: #c20707;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -218,4 +220,41 @@ a.secondary {
 
 .logoutButton:focus {
   outline: none;
+}
+
+.profilePicWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 20px; 
+}
+
+.profilePic {
+  width: 150px; 
+  height: 150px;
+  border-radius: 50%; 
+  overflow: hidden; 
+  border: 3px solid #fff; 
+}
+
+.profilePicImage {
+  object-fit: cover; 
+}
+
+.homeIcon {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; 
+  background-color: #3bc78d;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+.homeButton a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px; 
 }

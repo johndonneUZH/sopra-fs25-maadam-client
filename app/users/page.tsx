@@ -74,30 +74,32 @@ const Dashboard: React.FC = () => {
   // read more here: https://react.dev/reference/react/useEffect#specifying-reactive-dependencies
 
   return (
-    <div className="card-container">
-      <Card
-        title="Get all users from secure endpoint:"
-        loading={!users}
-        className="dashboard-container"
-      >
-        {users && (
-          <>
-            {/* antd Table: pass the columns and data, plus a rowKey for stable row identity */}
-            <Table<User>
-              columns={columns}
-              dataSource={users}
-              rowKey="id"
-              onRow={(row) => ({
-                onClick: () => router.push(`/users/${row.id}`),
-                style: { cursor: "pointer" },
-              })}
-            />
-            <Button onClick={handleLogout} type="primary">
-              Logout
-            </Button>
-          </>
-        )}
-      </Card>
+    <div className="login-container">
+      <div className="card-container">
+        <Card
+          title="Get all users from secure endpoint:"
+          loading={!users}
+          className="dashboard-container"
+        >
+          {users && (
+            <>
+              {/* antd Table: pass the columns and data, plus a rowKey for stable row identity */}
+              <Table<User>
+                columns={columns}
+                dataSource={users}
+                rowKey="id"
+                onRow={(row) => ({
+                  onClick: () => router.push(`/users/${row.id}`),
+                  style: { cursor: "pointer" },
+                })}
+              />
+              <Button onClick={handleLogout} type="primary">
+                Logout
+              </Button>
+            </>
+          )}
+        </Card>
+      </div>
     </div>
   );
 };

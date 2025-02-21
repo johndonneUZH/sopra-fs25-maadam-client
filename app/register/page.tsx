@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation"; // use NextJS router for navigation
 import { useApi } from "@/hooks/useApi";
 import { Button, Form, Input } from "antd";
+import HomeIcon from "@/components/HomeIcon"; 
+import styles from "@/styles/page.module.css";
 
 interface FormFieldProps {
   name: string;
@@ -40,57 +42,57 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <Form
-        form={form}
-        name="register"
-        size="large"
-        variant="outlined"
-        onFinish={handleRegister}
-        layout="vertical"
-      >
-        <Form.Item
-          name="name"
-          label="Name"
-          rules={[{ required: true, message: "Please input your name!" }]}
+    <div>
+      <div className={styles.homeIcon}>
+        <HomeIcon />
+      </div>
+      <div className="login-container">
+        <Form
+          form={form}
+          name="register"
+          size="large"
+          variant="outlined"
+          onFinish={handleRegister}
+          layout="vertical"
         >
-          <Input placeholder="Enter name" />
-        </Form.Item>
-
-        <Form.Item
-          name="username"
-          label="Username"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <Input placeholder="Enter username" />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password placeholder="Enter password" />
-        </Form.Item>
-
-        <Form.Item
-          name="confirmPassword"
-          label="Confirm password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password placeholder="Re-enter password" />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-button">
-            Register
-          </Button>
-        </Form.Item>
-
-      <footer>
-        <a onClick={() => router.push("/login")}>Already registered?</a>
-      </footer>
-      </Form>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true, message: "Please input your name!" }]}
+          >
+            <Input placeholder="Enter name" />
+          </Form.Item>
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input placeholder="Enter username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password placeholder="Enter password" />
+          </Form.Item>
+          <Form.Item
+            name="confirmPassword"
+            label="Confirm password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password placeholder="Re-enter password" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-button">
+              Register
+            </Button>
+          </Form.Item>
+        <footer>
+          <a onClick={() => router.push("/login")}>Already registered?</a>
+        </footer>
+        </Form>
+      </div>
     </div>
   );
 };
