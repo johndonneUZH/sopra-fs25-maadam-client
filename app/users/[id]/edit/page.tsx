@@ -31,6 +31,7 @@ const EditProfile = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false); // Loading state for form submission
   const [form] = Form.useForm(); // Ant Design Form instance
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const EditProfile = () => {
           setUser(data);
           form.setFieldsValue({
             username: data.username,
-            birthday: data.birthday ? dayjs(data.birthday).format("YYYY-MM-DD") : "",
+            birthday: data.birthday ? dayjs(data.birthday) : null, // Fixed typo: birthday -> birthday
           });
         })
         .catch((error) => {
@@ -80,27 +81,42 @@ const EditProfile = () => {
   const handleEdit = async (values: FormFieldProps) => {
     const updatedData = {
       ...values,
-      birthday: values.birthday ? dayjs(values.birthday).format("YYYY-MM-DD") : "",
+      birthday: values.birthday ? dayjs(values.birthday).format("YYYY-MM-DD") : null,
     };
-
+  
     console.log("Updated values:", updatedData);
-
+    setSubmitting(true);
+  
     try {
       const response = await fetch(`${getApiDomain()}users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
       });
-
-      if (!response.ok) throw new Error("Failed to update profile");
-
-      alert("Profile updated successfully!");
-      router.push(`/users/${id}`);
-    } catch (error) {
-      console.error("Update error:", error);
-      alert("Failed to update profile.");
+  
+      const contentType = response.headers.get("content-type");
+  
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        throw new Error("Invalid response from server");
+      }
+  
+      if (response.ok && data.status === "success") {
+        alert(data.message || "Profile updated successfully!");
+        router.push(`/users/${id}`);
+      } else {
+        throw new Error(data.message || "Failed to update profile");
+      }
+    } catch (error: any) {
+      alert(error.message || "An unexpected error occurred while updating the profile.");
+    } finally {
+      setSubmitting(false);
     }
   };
+  
+  
 
   return (
     <div className="login-container">
@@ -121,7 +137,7 @@ const EditProfile = () => {
           <Form.Item label="Birthday" name="birthday">
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
-          <Button type="primary" htmlType="submit" className="w-100">
+          <Button type="primary" htmlType="submit" className="w-100" loading={submitting}>
             Save Changes
           </Button>
         </Form>
