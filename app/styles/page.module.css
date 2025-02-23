@@ -292,3 +292,10 @@ a.secondary {
   gap: 40px; /* Adjust the gap between icons as needed */
   align-items: center; /* Center the icons vertically */
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Makes the spinner take up the full screen height */
+}
