@@ -204,8 +204,8 @@ a.secondary {
   width: 100%;
   padding: 15px;
   font-size: 18px; 
-  background-color: #ff4d4f;
-  color: #c20707;
+  background-color: #f20105 !important;
+  color: #ffffff !important;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -214,7 +214,7 @@ a.secondary {
 }
 
 .logoutButton:hover {
-  background-color: #d9363a;
+  background-color: #d9363a !important;
   transform: scale(1.05); 
 }
 
@@ -257,4 +257,38 @@ a.secondary {
   text-decoration: none;
   font-weight: bold;
   font-size: 16px; 
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px; /* Adjust the gap between buttons as needed */
+  justify-content: center; /* Center the buttons horizontally */
+}
+
+.editButton {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px; 
+  background-color: #3bc78d !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+}
+
+.editButton:hover {
+  background-color: #08a437 !important;
+  transform: scale(1.05); 
+}
+
+.editButton:focus {
+  outline: none;
+}
+
+.iconContainer {
+  display: flex;
+  gap: 40px; /* Adjust the gap between icons as needed */
+  align-items: center; /* Center the icons vertically */
 }

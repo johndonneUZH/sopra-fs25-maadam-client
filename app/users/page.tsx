@@ -8,7 +8,9 @@ import { useApi } from "@/hooks/useApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { User } from "@/types/user";
 import { Button, Card, Table } from "antd";
+import HomeIcon from "@/components/HomeIcon";
 import type { TableProps } from "antd"; // antd component library allows imports of types
+import styles from "@/styles/page.module.css";
 // Optionally, you can import a CSS module or file for additional styling:
 // import "@/styles/views/Dashboard.scss";
 
@@ -74,31 +76,36 @@ const Dashboard: React.FC = () => {
   // read more here: https://react.dev/reference/react/useEffect#specifying-reactive-dependencies
 
   return (
-    <div className="login-container">
-      <div className="card-container">
-        <Card
-          title="Get all users from secure endpoint:"
-          loading={!users}
-          className="dashboard-container"
-        >
-          {users && (
-            <>
-              {/* antd Table: pass the columns and data, plus a rowKey for stable row identity */}
-              <Table<User>
-                columns={columns}
-                dataSource={users}
-                rowKey="id"
-                onRow={(row) => ({
-                  onClick: () => router.push(`/users/${row.id}`),
-                  style: { cursor: "pointer" },
-                })}
-              />
-              <Button onClick={handleLogout} type="primary">
-                Logout
-              </Button>
-            </>
-          )}
-        </Card>
+    <div>
+      <div className={styles.homeIcon}>
+        <HomeIcon />
+      </div>
+      <div className="login-container">
+        <div className="card-container">
+          <Card
+            title="Get all users from secure endpoint:"
+            loading={!users}
+            className="dashboard-container"
+          >
+            {users && (
+              <>
+                {/* antd Table: pass the columns and data, plus a rowKey for stable row identity */}
+                <Table<User>
+                  columns={columns}
+                  dataSource={users}
+                  rowKey="id"
+                  onRow={(row) => ({
+                    onClick: () => router.push(`/users/${row.id}`),
+                    style: { cursor: "pointer" },
+                  })}
+                />
+                <Button onClick={handleLogout} type="primary" className={styles.logoutButton}>
+                  Logout
+                </Button>
+              </>
+            )}
+          </Card>
+        </div>
       </div>
     </div>
   );

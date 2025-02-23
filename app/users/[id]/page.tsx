@@ -4,8 +4,11 @@ import { useParams } from "next/navigation";
 import { Card, Button, Form } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import HomeIcon from "@/components/HomeIcon"; 
+import BackIcon from "@/components/BackIcon"; 
 import { getApiDomain } from "@/utils/domain";
 import styles from "@/styles/page.module.css";
+import Home from "@/page";
 
 interface User {
   id: number;
@@ -43,29 +46,37 @@ const UserProfile = () => {
   if (user === null) return <div>User not found.</div>;
 
   return (
-    <div className="login-container">
-
-      <Card className={styles.card}>
-        <div className={styles.profilePicWrapper}>
-          <div className={styles.profilePic}>
-            <Image 
-              src={`https://picsum.photos/800/500?grayscale&random=${id}`} 
-              className={styles.profilePicImage} 
-              alt="Profile picture" 
-              width={150} 
-              height={150} 
-            />
+    <div>
+      <div className={styles.homeIcon}>
+          <HomeIcon />
+      </div>
+      <div className="login-container">
+        
+        <Card className={styles.card}>
+          <BackIcon />
+          <div className={styles.profilePicWrapper}>
+            <div className={styles.profilePic}>
+              <Image
+                src={`https://picsum.photos/800/500?grayscale&random=${id}`}
+                className={styles.profilePicImage}
+                alt="Profile picture"
+                width={150}
+                height={150}
+              />
+            </div>
           </div>
-        </div>
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Status:</strong> {user.status}</p>
-        <p><strong>Joined:</strong> {user.date}</p>
-        {user.birthday && <p><strong>Birthday:</strong> {user.birthday}</p>}
-        <Button type="primary" htmlType="submit" className={styles.logoutButton}>
-          Logout
-        </Button>
-      </Card>
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Username:</strong> {user.username}</p>
+          <p><strong>Status:</strong> {user.status}</p>
+          <p><strong>Joined:</strong> {user.date}</p>
+          {user.birthday && <p><strong>Birthday:</strong> {user.birthday}</p>}
+          <div className={styles.buttonContainer}>
+            <Button type="primary" htmlType="submit" className={styles.editButton}>
+              Edit
+            </Button>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
