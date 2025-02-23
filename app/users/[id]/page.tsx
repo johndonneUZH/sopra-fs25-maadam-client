@@ -79,7 +79,7 @@ const UserProfile = () => {
       </div>
       <div className="login-container">
         <Card className={styles.card}>
-          <BackIcon />
+          <BackIcon link="/users" />
           <div className={styles.profilePicWrapper}>
             <div className={styles.profilePic}>
               <Image

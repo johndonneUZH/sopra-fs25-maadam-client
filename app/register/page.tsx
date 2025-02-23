@@ -6,6 +6,7 @@ import { Button, Form, Input } from "antd";
 import HomeIcon from "@/components/HomeIcon"; 
 import styles from "@/styles/page.module.css";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useEffect } from "react";
 
 interface FormFieldProps {
   name: string;
@@ -30,11 +31,13 @@ const Register: React.FC = () => {
   const [form] = Form.useForm();
 
   const { value: token, set: setToken } = useLocalStorage<string>("token", "");
-    const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
-  
-  if (userId) {
-    router.push(`/users/${userId}`);
-  }
+  const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
+
+  useEffect(() => {
+    if (userId) {
+      router.push(`/users/${userId}`);
+    }
+  }, [userId, router]);
 
   const handleRegister = async (values: FormFieldProps) => {
     // Check if the passwords match
@@ -52,6 +55,7 @@ const Register: React.FC = () => {
       }
 
       setToken(response.token);
+      setUserId(response.id.toString());
 
       // Navigate to the dashboard
       router.push(`/users/${response.id}`);
@@ -63,7 +67,6 @@ const Register: React.FC = () => {
       }
     }
   };
-
 
   return (
     <div>
@@ -112,9 +115,9 @@ const Register: React.FC = () => {
               Register
             </Button>
           </Form.Item>
-        <footer>
-          <a onClick={() => router.push("/login")}>Already registered?</a>
-        </footer>
+          <footer>
+            <a onClick={() => router.push("/login")}>Already registered?</a>
+          </footer>
         </Form>
       </div>
     </div>

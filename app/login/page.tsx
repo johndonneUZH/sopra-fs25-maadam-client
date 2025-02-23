@@ -32,7 +32,6 @@ const Login: React.FC = () => {
   }, [userId, router]);
 
   const handleLogin = async (values: FormFieldProps) => {
-    setLoading(true);
     try {
       // Call the API service and let it handle JSON serialization and error handling
       const response = await apiService.post<User>("/login/auth", values );

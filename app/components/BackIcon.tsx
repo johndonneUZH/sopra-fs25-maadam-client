@@ -2,10 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import styles from '@/styles/page.module.css'; // Ensure this path is correct
 
-const BackIcon: React.FC = () => {
+interface BackIconProps {
+  link: string;
+}
+
+const BackIcon: React.FC<BackIconProps> = ({ link }) => {
   return (
     <div className={styles.backButton}>
-      <Link href="/users" passHref>
+      <Link href={link} passHref>
         <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

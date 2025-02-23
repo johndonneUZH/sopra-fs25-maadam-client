@@ -289,13 +289,36 @@ a.secondary {
 
 .iconContainer {
   display: flex;
-  gap: 40px; /* Adjust the gap between icons as needed */
-  align-items: center; /* Center the icons vertically */
+  gap: 40px; 
+  align-items: center; 
 }
 
 .loadingContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Makes the spinner take up the full screen height */
+  height: 100vh; 
+}
+
+.customDateInput {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ffffff8e;
+  background-color: #111010;
+  color: #ffffff;
+  font-size: 14px;
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Focus effect */
+.customDateInput:focus {
+  border-color: #ff6347;
+  outline: none;
+}
+
+.customDateInput::-webkit-outer-spin-button,
+.customDateInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
