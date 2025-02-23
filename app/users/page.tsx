@@ -63,6 +63,7 @@ const Dashboard: React.FC = () => {
 
   const handleLogout = (): void => { 
     localStorage.removeItem("token"); // Clear the token from localStorage
+    localStorage.removeItem("userId"); // Clear the userId from localStorage
     router.push("/login");
   };
 

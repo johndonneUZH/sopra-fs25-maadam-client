@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation"; // use NextJS router for navigation
 import { useApi } from "@/hooks/useApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { User } from "@/types/user";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Spin } from "antd";
 import HomeIcon from "@/components/HomeIcon"; 
 // Optionally, you can import a CSS module or file for additional styling:
 import styles from "@/styles/page.module.css";
+import { useEffect, useState } from "react";
 
 interface FormFieldProps {
   label: string;
@@ -18,17 +19,20 @@ const Login: React.FC = () => {
   const router = useRouter();
   const apiService = useApi();
   const [form] = Form.useForm();
-  // useLocalStorage hook example use
-  // The hook returns an object with the value and two functions
-  // Simply choose what you need from the hook:
-  const {
-    // value: token, // is commented out because we do not need the token value
-    set: setToken, // we need this method to set the value of the token to the one we receive from the POST request to the backend server API
-    // clear: clearToken, // is commented out because we do not need to clear the token when logging in
-  } = useLocalStorage<string>("token", ""); // note that the key we are selecting is "token" and the default value we are setting is an empty string
-  // if you want to pick a different token, i.e "usertoken", the line above would look as follows: } = useLocalStorage<string>("usertoken", "");
+  
+  const [loading, setLoading] = useState(false);
+
+  const { value: token, set: setToken } = useLocalStorage<string>("token", "");
+  const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
+
+  useEffect(() => {
+    if (userId) {
+      router.push(`/users/${userId}`);
+    }
+  }, [userId, router]);
 
   const handleLogin = async (values: FormFieldProps) => {
+    setLoading(true);
     try {
       // Call the API service and let it handle JSON serialization and error handling
       const response = await apiService.post<User>("/login/auth", values );
@@ -38,17 +42,35 @@ const Login: React.FC = () => {
         setToken(response.token);
       }
 
+      if (response.id) {
+        setUserId(response.id);
+      }
+
+      setLoading(false);
+      
       // Navigate to the user overview
       router.push("/users");
     } catch (error) {
       if (error instanceof Error) {
-        alert(`Something went wrong during the login:\n${error.message}`);
+        alert(`Something went wrong during the login:\n${error.message}`);     
       } else {
         console.error("An unknown error occurred during login.");
       }
+      setLoading(false);
     }
   };
 
+  // Show loading state until the check is done
+  if (loading) {
+    return (
+      <div className="login-container">
+        <div className={styles.loadingContainer}>
+          <Spin size="large" />
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div>
       <div className={styles.homeIcon}>

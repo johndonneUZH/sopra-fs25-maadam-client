@@ -30,6 +30,11 @@ const Register: React.FC = () => {
   const [form] = Form.useForm();
 
   const { value: token, set: setToken } = useLocalStorage<string>("token", "");
+    const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
+  
+  if (userId) {
+    router.push(`/users/${userId}`);
+  }
 
   const handleRegister = async (values: FormFieldProps) => {
     // Check if the passwords match
