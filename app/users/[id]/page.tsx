@@ -19,10 +19,14 @@ interface User {
   birthday?: string;
 }
 
+interface Params {
+  id: string;
+}
+
 const UserProfile = () => {
-  const params = useParams();
+  const params = useParams() as unknown as Params;
   const router = useRouter();
-  const id = params?.id as string;
+  const id = params.id;
 
   const [user, setUser] = useState<User | null | undefined>(undefined);
   const [loading, setLoading] = useState(true);

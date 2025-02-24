@@ -22,7 +22,9 @@ const Login: React.FC = () => {
   
   const [loading, setLoading] = useState(false);
 
-  const { value: token, set: setToken } = useLocalStorage<string>("token", "");
+  const { 
+    // value: token, 
+    set: setToken } = useLocalStorage<string>("token", "");
   const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
 
   useEffect(() => {

@@ -10,8 +10,9 @@ const NEXT_PUBLIC_PROD_API_URL = 'https://sopra-fs25-maadam-server.oa.r.appspot.
 const devUrl = 'http://localhost:8080/';
 
 export function getApiDomain(): string {
-  return process.env.NODE_ENV === "production"
-    ? NEXT_PUBLIC_PROD_API_URL
-    : devUrl;
+  if (isProduction()) {
+    return NEXT_PUBLIC_PROD_API_URL
+  }
+  return devUrl;
 }
 

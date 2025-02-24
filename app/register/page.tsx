@@ -30,7 +30,9 @@ const Register: React.FC = () => {
   const apiService = useApi();
   const [form] = Form.useForm();
 
-  const { value: token, set: setToken } = useLocalStorage<string>("token", "");
+  const { 
+    // value: token, 
+    set: setToken } = useLocalStorage<string>("token", "");
   const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
 
   useEffect(() => {
