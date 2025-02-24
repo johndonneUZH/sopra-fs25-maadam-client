@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
@@ -24,7 +26,7 @@ interface Params {
 }
 
 const UserProfile = () => {
-  const params = useParams<Params>();
+  const params = useParams() as unknown as Params;
   const router = useRouter();
   const id = params.id;
 
