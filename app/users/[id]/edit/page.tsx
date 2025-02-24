@@ -50,10 +50,14 @@ const EditProfile = () => {
           return response.json();
         })
         .then((data) => {
+          if (token.trim().replace(/^"|"$/g, "") !== data.token) {
+            router.push("/login")
+            return;
+          }
           setUser(data);
           form.setFieldsValue({
             username: data.username,
-            birthday: data.birthday ? dayjs(data.birthday) : null, // Fixed typo: birthday -> birthday
+            birthday: data.birthday ? dayjs(data.birthday) : null,
           });
         })
         .catch((error) => {
