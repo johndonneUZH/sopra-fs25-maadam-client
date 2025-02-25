@@ -78,7 +78,7 @@ const Dashboard: React.FC = () => {
     try {
       // Send the logout request
       await apiService.put("/users/logout", {
-        id: id, 
+        id: id,
         token: token.trim().replace(/^"|"$/g, ""), 
       });
   

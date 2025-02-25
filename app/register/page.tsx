@@ -28,7 +28,7 @@ const Register: React.FC = () => {
   const { 
     // value: token, 
     set: setToken } = useLocalStorage<string>("token", "");
-  const { value: id, set: setUserId } = useLocalStorage<string>("id", "");
+  const { value: id, set: setUserId } = useLocalStorage<number>("id", 0);
 
   useEffect(() => {
     if (id) {
@@ -54,7 +54,7 @@ const Register: React.FC = () => {
       }
   
       setToken(response.token);
-      setUserId(response.id.toString());
+      setUserId(response.id);
   
       router.push(`/users/${response.id}`);
     } catch (error: any) {

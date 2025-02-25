@@ -25,7 +25,7 @@ const Login: React.FC = () => {
   const { 
     // value: token, 
     set: setToken } = useLocalStorage<string>("token", "");
-  const { value: id, set: setUserId } = useLocalStorage<string>("id", "");
+  const { value: id, set: setUserId } = useLocalStorage<number>("id", 0);
 
   useEffect(() => {
     if (id) {
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
       }
 
       if (response.id) {
-        setUserId(response.id);
+        setUserId(parseInt(response.id, 10));
       }
 
       setLoading(false);
