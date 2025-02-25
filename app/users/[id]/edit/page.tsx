@@ -16,7 +16,6 @@ interface FormFieldProps {
 
 interface User {
   id: number;
-  name: string;
   username: string;
   status: string;
   date: string;
@@ -82,7 +81,7 @@ const EditProfile = () => {
 
   if (!user) return <div className="text-center mt-5">User not found.</div>;
 
-  const handleEdit = async (values: FormFieldProps) => {
+  const handleEdit = async (values: FormFieldProps) => { 
     const updatedData = {
       ...values,
       birthday: values.birthday ? dayjs(values.birthday).format("YYYY-MM-DD") : null,
@@ -98,20 +97,20 @@ const EditProfile = () => {
         body: JSON.stringify(updatedData),
       });
   
-      const contentType = response.headers.get("content-type");
-  
-      let data;
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        throw new Error("Invalid response from server");
-      }
-  
-      if (response.ok && data.status === "success") {
-        alert(data.message || "Profile updated successfully!");
+      if (response.status === 204) {
+        // Successful update with no content
+        alert("Profile updated successfully!");
         router.push(`/users/${id}`);
-      } else {
+        return;
+      } 
+  
+      // Handle other responses
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
         throw new Error(data.message || "Failed to update profile");
+      } else {
+        throw new Error("Unexpected response from server");
       }
     } catch (error: any) {
       alert(error.message || "An unexpected error occurred while updating the profile.");
@@ -119,6 +118,7 @@ const EditProfile = () => {
       setSubmitting(false);
     }
   };
+  
   
   
 

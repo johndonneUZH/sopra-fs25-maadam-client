@@ -13,7 +13,6 @@ import styles from "@/styles/page.module.css";
 
 interface User {
   id: number;
-  name: string;
   username: string;
   status: string;
   date: string;
@@ -97,7 +96,6 @@ const UserProfile = () => {
               />
             </div>
           </div>
-          <p><strong>Name:</strong> {user.name}</p>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Status:</strong> {user.status}</p>
           <p><strong>Joined:</strong> {user.date}</p>

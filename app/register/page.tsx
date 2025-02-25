@@ -9,7 +9,6 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 
 interface FormFieldProps {
-  name: string;
   username: string;
   password: string;
   confirmPassword: string;
@@ -17,11 +16,7 @@ interface FormFieldProps {
 
 export interface UserGetDTO {
   id: number;
-  name: string;
   username: string;
-  status: string;
-  date: string;
-  birthday: string;
   token: string;
 }
 
@@ -42,33 +37,37 @@ const Register: React.FC = () => {
   }, [userId, router]);
 
   const handleRegister = async (values: FormFieldProps) => {
-    // Check if the passwords match
     if (values.password !== values.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-
+  
     try {
-      // Call the API service and let it handle JSON serialization and error handling
-      const response = await apiService.post<UserGetDTO>("/users", values);
-
+      // Send only username and password in the body
+      const response = await apiService.post<UserGetDTO>("/users", {
+        username: values.username,
+        password: values.password,
+      });
+  
       if (!response.token) {
         throw new Error("Registration failed: Missing token in response.");
       }
-
+  
       setToken(response.token);
       setUserId(response.id.toString());
-
-      // Navigate to the dashboard
+  
       router.push(`/users/${response.id}`);
-    } catch (error) {
-      if (error instanceof Error) {
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        alert("Registration failed: Username already exists.");
+      } else if (error instanceof Error) {
         alert(`Something went wrong during the registration:\n${error.message}`);
       } else {
         console.error("An unknown error occurred during registration.");
       }
     }
   };
+  
 
   return (
     <div>
@@ -84,13 +83,6 @@ const Register: React.FC = () => {
           onFinish={handleRegister}
           layout="vertical"
         >
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[{ required: true, message: "Please input your name!" }]}
-          >
-            <Input placeholder="Enter name" />
-          </Form.Item>
           <Form.Item
             name="username"
             label="Username"

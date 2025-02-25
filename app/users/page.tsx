@@ -15,15 +15,15 @@ const columns = [
     key: "username",
   },
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
     title: "Id",
     dataIndex: "id",
     key: "id",
   },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  }
 ];
 
 const Dashboard: React.FC = () => {
@@ -59,11 +59,24 @@ const Dashboard: React.FC = () => {
     };
 
     fetchUsers();
-  }, [apiService, router]); // Add router as dependency
+  }, [apiService, router]); 
 
   const handleLogout = (): void => { 
     localStorage.removeItem("token"); // Clear the token from localStorage
     localStorage.removeItem("userId"); // Clear the userId from localStorage
+
+    // Modify status
+    const setOffline = async () => {
+      try {
+        await apiService.put("/users/logout", { 
+          status: "offline",
+          token: localStorage.getItem("token")
+        });
+      } catch (error) {
+        console.error("Error setting status to offline:", error);
+      }
+    };
+
     router.push("/login");
   };
 
