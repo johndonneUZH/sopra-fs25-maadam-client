@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import HomeIcon from "@/components/HomeIcon"; 
 import BackIcon from "@/components/BackIcon"; 
-import { getApiDomain } from "@/utils/domain";
+import { useApi } from "@/hooks/useApi";
 import styles from "@/styles/page.module.css";
 
 interface User {
@@ -27,6 +27,7 @@ interface Params {
 const UserProfile = () => {
   const params = useParams() as unknown as Params;
   const router = useRouter();
+  const apiService = useApi();
   const id = params.id;
 
   const [user, setUser] = useState<User | null | undefined>(undefined);
@@ -41,12 +42,9 @@ const UserProfile = () => {
     }
 
     if (id) {
-      fetch(`${getApiDomain()}users/${id}`, {
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("User not found");
-          return response.json();
+      apiService
+        .get<User>(`/users/${id}`, {
+          headers: { Authorization: token.trim().replace(/^"|"$/g, "") },
         })
         .then((data) => setUser(data))
         .catch((error) => {
@@ -57,7 +55,7 @@ const UserProfile = () => {
     } else {
       setLoading(false);
     }
-  }, [id, router]);
+  }, [id, router, apiService]);
 
   // Show loading state until the check is done
   if (loading) {

@@ -15,7 +15,7 @@ const columns = [
     key: "username",
   },
   {
-    title: "Id",
+    title: "ID",
     dataIndex: "id",
     key: "id",
   },
@@ -44,7 +44,11 @@ const Dashboard: React.FC = () => {
     // Fetch users only if token exists
     const fetchUsers = async () => {
       try {
-        const users: User[] = await apiService.get<User[]>("/users");
+        const users: User[] = await apiService.get<User[]>("/users", {
+          headers: {
+            Authorization: token.trim().replace(/^"|"$/g, ""),
+          },
+        });
         setUsers(users);
         console.log("Fetched users:", users);
       } catch (error) {
@@ -61,23 +65,32 @@ const Dashboard: React.FC = () => {
     fetchUsers();
   }, [apiService, router]); 
 
-  const handleLogout = (): void => { 
-    localStorage.removeItem("token"); // Clear the token from localStorage
-    localStorage.removeItem("userId"); // Clear the userId from localStorage
-
-    // Modify status
-    const setOffline = async () => {
-      try {
-        await apiService.put("/users/logout", { 
-          status: "offline",
-          token: localStorage.getItem("token")
-        });
-      } catch (error) {
-        console.error("Error setting status to offline:", error);
-      }
-    };
-
-    router.push("/login");
+  const handleLogout = async (): Promise<void> => {
+    const id = localStorage.getItem("id");
+    const token = localStorage.getItem("token");
+  
+    if (!id || !token) {
+      alert("User ID or token not found. Please log in again.");
+      router.push("/login");
+      return;
+    }
+  
+    try {
+      // Send the logout request
+      await apiService.put("/users/logout", {
+        id: id, 
+        token: token.trim().replace(/^"|"$/g, ""), 
+      });
+  
+      // Clear local storage and redirect to login page
+      localStorage.removeItem("token");
+      localStorage.removeItem("id");
+      router.push("/login");
+      
+    } catch (error) {
+      console.error("Error setting status to offline:", error);
+      alert("An error occurred while logging out. Please try again.");
+    }
   };
 
   // Show loading state until the check is done

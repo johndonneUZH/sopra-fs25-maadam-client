@@ -58,17 +58,16 @@ export class ApiService {
    * @param endpoint - The API endpoint (e.g. "/users").
    * @returns JSON data of type T.
    */
-  public async get<T>(endpoint: string): Promise<T> {
+  public async get<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
     const res = await fetch(url, {
       method: "GET",
-      headers: this.defaultHeaders,
+      headers: { ...this.defaultHeaders, ...(options?.headers || {}) },
+      ...options, // Spread any other options
     });
-    return this.processResponse<T>(
-      res,
-      "An error occurred while fetching the data.\n",
-    );
+    return this.processResponse<T>(res, "An error occurred while fetching the data.\n");
   }
+  
 
   /**
    * POST request.
@@ -89,24 +88,30 @@ export class ApiService {
     );
   }
 
-  /**
-   * PUT request.
-   * @param endpoint - The API endpoint (e.g. "/users/123").
-   * @param data - The payload to update.
-   * @returns JSON data of type T.
-   */
-  public async put<T>(endpoint: string, data: unknown): Promise<T> {
+/**
+ * PUT request with optional request options.
+ * @param endpoint - The API endpoint (e.g. "/users/123").
+ * @param data - The payload to update.
+ * @param options - Optional request options (e.g., headers).
+ * @returns JSON data of type T.
+ */
+  public async put<T>(endpoint: string, data: unknown, options?: RequestInit): Promise<T | void> {
     const url = `${this.baseURL}${endpoint}`;
     const res = await fetch(url, {
-      method: "PUT",
-      headers: this.defaultHeaders,
-      body: JSON.stringify(data),
+        method: "PUT",
+        headers: { ...this.defaultHeaders, ...(options?.headers || {}) },
+        body: JSON.stringify(data),
+        ...options, 
     });
-    return this.processResponse<T>(
-      res,
-      "An error occurred while updating the data.\n",
-    );
+
+    if (res.status === 204) {
+        return; // Return nothing for 204 No Content
+    }
+
+    return this.processResponse<T>(res, "An error occurred while updating the data.\n");
   }
+
+
 
   /**
    * DELETE request.

@@ -28,13 +28,13 @@ const Register: React.FC = () => {
   const { 
     // value: token, 
     set: setToken } = useLocalStorage<string>("token", "");
-  const { value: userId, set: setUserId } = useLocalStorage<string>("userId", "");
+  const { value: id, set: setUserId } = useLocalStorage<string>("id", "");
 
   useEffect(() => {
-    if (userId) {
-      router.push(`/users/${userId}`);
+    if (id) {
+      router.push(`/users/${id}`);
     }
-  }, [userId, router]);
+  }, [id, router]);
 
   const handleRegister = async (values: FormFieldProps) => {
     if (values.password !== values.confirmPassword) {

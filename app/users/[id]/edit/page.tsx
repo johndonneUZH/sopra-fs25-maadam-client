@@ -2,12 +2,13 @@
 
 import { useRouter, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { getApiDomain } from "@/utils/domain";
+import { useApi } from "@/hooks/useApi";
 import HomeIcon from "@/components/HomeIcon";
 import BackIcon from "@/components/BackIcon";
 import styles from "@/styles/page.module.css";
 import { Button, Card, DatePicker, Form, Input, Spin } from "antd";
 import dayjs from "dayjs";
+import { getApiDomain } from "@/utils/domain";
 
 interface FormFieldProps {
   username: string;
@@ -26,31 +27,30 @@ interface User {
 const EditProfile = () => {
   const router = useRouter();
   const params = useParams();
+  const apiService = useApi();
   const id = params?.id as string;
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false); // Loading state for form submission
-  const [form] = Form.useForm(); // Ant Design Form instance
+  const [submitting, setSubmitting] = useState(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token) {
       router.push("/login");
       return;
     }
 
     if (id) {
-      fetch(`${getApiDomain()}users/${id}`, {
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("User not found");
-          return response.json();
+      apiService
+        .get<User>(`/users/${id}`, {
+          headers: { Authorization: token.trim().replace(/^"|"$/g, "") },
         })
         .then((data) => {
           if (token.trim().replace(/^"|"$/g, "") !== data.token) {
-            router.push("/login")
+            router.push("/login");
             return;
           }
           setUser(data);
@@ -67,7 +67,7 @@ const EditProfile = () => {
     } else {
       setLoading(false);
     }
-  }, [id, router, form]);
+  }, [id, router, form, apiService]);
 
   if (loading) {
     return (
@@ -79,7 +79,9 @@ const EditProfile = () => {
     );
   }
 
-  if (!user) return <div className="text-center mt-5">User not found.</div>;
+  
+
+  if (!user) return <div className="text-center mt-5">{user}</div>;
 
   const handleEdit = async (values: FormFieldProps) => { 
     const updatedData = {
@@ -93,7 +95,9 @@ const EditProfile = () => {
     try {
       const response = await fetch(`${getApiDomain()}users/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          Authorization: user.token.trim().replace(/^"|"$/g, "")
+        },
         body: JSON.stringify(updatedData),
       });
   
@@ -119,9 +123,6 @@ const EditProfile = () => {
     }
   };
   
-  
-  
-
   return (
     <div className="login-container">
       <div className={styles.homeIcon}>
