@@ -5,11 +5,14 @@ import { isProduction } from "@/utils/environment";
  * In production it retrieves the URL from NEXT_PUBLIC_PROD_API_URL (or falls back to a hardcoded url).
  * In development, it returns "http://localhost:8080".
  */
+
+const NEXT_PUBLIC_PROD_API_URL = 'https://sopra-fs25-maadam-server.oa.r.appspot.com/';
 const devUrl = 'http://localhost:8080/';
 
 export function getApiDomain(): string {
   if (isProduction()) {
-    return process.env.NEXT_PUBLIC_PROD_API_URL || devUrl;  // Use fallback in case env is missing
+    return NEXT_PUBLIC_PROD_API_URL
   }
   return devUrl;
 }
+
