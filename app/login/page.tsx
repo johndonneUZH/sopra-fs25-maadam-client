@@ -11,8 +11,8 @@ import styles from "@/styles/page.module.css";
 import { useEffect, useState } from "react";
 
 interface FormFieldProps {
-  label: string;
-  value: string;
+  username: string;
+  password: string;
 }
 
 const Login: React.FC = () => {
