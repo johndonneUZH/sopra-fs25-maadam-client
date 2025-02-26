@@ -43,14 +43,11 @@ const Register: React.FC = () => {
     }
   
     try {
-
-      const body = {
+      // Send only username and password in the body
+      const response = await apiService.post<UserGetDTO>("/users", {
         username: values.username,
         password: values.password,
-      }
-
-      // Send only username and password in the body
-      const response = await apiService.post<UserGetDTO>("/users", JSON.stringify(body));
+      });
   
       if (!response.token) {
         throw new Error("Registration failed: Missing token in response.");
