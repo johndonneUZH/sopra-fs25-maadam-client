@@ -6,7 +6,6 @@ import { isProduction } from "@/utils/environment";
  * In development, it returns "http://localhost:8080".
  */
 
-const NEXT_PUBLIC_PROD_API_URL = 'https://sopra-fs25-maadam-server.oa.r.appspot.com/';
 const devUrl = 'http://localhost:8080/';
 
 export function getApiDomain(): string {
