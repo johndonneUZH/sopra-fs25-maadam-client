@@ -93,7 +93,7 @@ const EditProfile = () => {
     setSubmitting(true);
   
     try {
-      const response = await fetch(`${getApiDomain()}users/${id}`, {
+      const response = await fetch(`${getApiDomain()}/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json",
           Authorization: user.token.trim().replace(/^"|"$/g, "")
