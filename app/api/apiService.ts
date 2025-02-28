@@ -50,7 +50,9 @@ export class ApiService {
       error.status = res.status;
       throw error;
     }
-    return res.json() as Promise<T>;
+    return res.headers.get("Content-Type")?.includes("application/json")
+      ? res.json() as Promise<T>
+      : Promise.resolve(res as T);
   }
 
   /**
@@ -104,11 +106,10 @@ export class ApiService {
         ...options, 
     });
 
-    if (res.status === 204) {
-        return; // Return nothing for 204 No Content
-    }
-
-    return this.processResponse<T>(res, "An error occurred while updating the data.\n");
+    return this.processResponse<T>(
+      res,
+      "An error occurred while updating the data.\n",
+    );
   }
 
 

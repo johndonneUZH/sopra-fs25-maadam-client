@@ -85,43 +85,48 @@ const EditProfile = () => {
 
   const handleEdit = async (values: FormFieldProps) => { 
     const updatedData = {
-      ...values,
-      birthday: values.birthday ? dayjs(values.birthday).format("YYYY-MM-DD") : null,
+        ...values,
+        birthday: values.birthday ? dayjs(values.birthday).format("YYYY-MM-DD") : null,
     };
-  
+
     console.log("Updated values:", updatedData);
     setSubmitting(true);
-  
+
     try {
-      const response = await fetch(`${getApiDomain()}/users/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json",
-          Authorization: user.token.trim().replace(/^"|"$/g, "")
-        },
-        body: JSON.stringify(updatedData),
-      });
-  
-      if (response.status === 204) {
-        // Successful update with no content
-        alert("Profile updated successfully!");
-        router.push(`/users/${id}`);
-        return;
-      } 
-  
-      // Handle other responses
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const data = await response.json();
-        throw new Error(data.message || "Failed to update profile");
-      } else {
-        throw new Error("Unexpected response from server");
-      }
+        const response = await fetch(`${getApiDomain()}/users/${id}`, {
+            method: "PUT",
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization: user.token.trim().replace(/^"|"$/g, "")
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (response.status === 204) {
+            // Successful update with no content
+            alert("Profile updated successfully!");
+            router.push(`/users/${id}`);
+            return;
+        } 
+
+        // Handle other responses
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            if (data.message) {
+                throw new Error(data.message);
+            } else {
+                throw new Error("Failed to update profile");
+            }
+        } else {
+            throw new Error("Unexpected response from server");
+        }
     } catch (error: any) {
-      alert(error.message || "An unexpected error occurred while updating the profile.");
+        alert(error.message || "An unexpected error occurred while updating the profile.");
     } finally {
-      setSubmitting(false);
+        setSubmitting(false);
     }
-  };
+};
   
   return (
     <div className="login-container">
