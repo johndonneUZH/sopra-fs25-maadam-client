@@ -38,35 +38,30 @@ const Register: React.FC = () => {
 
   const handleRegister = async (values: FormFieldProps) => {
     if (values.password !== values.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+        alert("Passwords do not match!");
+        return;
     }
-  
+
     try {
-      // Send only username and password in the body
-      const response = await apiService.post<UserGetDTO>("/users", {
-        username: values.username,
-        password: values.password,
-      });
-  
-      if (!response.token) {
-        throw new Error("Registration failed: Missing token in response.");
-      }
-  
-      setToken(response.token);
-      setUserId(response.id);
-  
-      router.push(`/users/${response.id}`);
+        const response = await apiService.post<UserGetDTO>("/users", {
+            username: values.username,
+            password: values.password,
+        });
+
+        setToken(response.token);
+        setUserId(response.id);
+
+        router.push(`/users/${response.id}`);
     } catch (error: any) {
-      if (error.response && error.response.status === 409) {
-        alert("Registration failed: Username already exists.");
-      } else if (error instanceof Error) {
-        alert(`Something went wrong during the registration:\n${error.message}`);
-      } else {
-        console.error("An unknown error occurred during registration.");
-      }
+        if (error.response && error.response.status === 409) {
+            alert("Registration failed: Username already exists.");
+        } else if (error instanceof Error) {
+            alert(`Something went wrong during the registration:\n${error.message}`);
+        } else {
+            console.error("An unknown error occurred during registration.");
+        }
     }
-  };
+};
   
 
   return (
