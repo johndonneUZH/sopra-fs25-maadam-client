@@ -35,29 +35,28 @@ const Login: React.FC = () => {
 
   const handleLogin = async (values: FormFieldProps) => {
     try {
-      // Call the API service and let it handle JSON serialization and error handling
-      const response = await apiService.post<User>("/login/auth", values );
-
-      // Use the useLocalStorage hook that returned a setter function (setToken in line 41) to store the token if available
+      setLoading(true);
+      const response = await apiService.post<User>("/login/auth", values);
+  
       if (response.token) {
         setToken(response.token);
       }
-
+  
       if (response.id) {
         setUserId(parseInt(response.id, 10));
       }
-
+  
       setLoading(false);
-      
-      // Navigate to the user overview
       router.push("/users");
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(`Something went wrong during the login:\n${error.message}`);     
-      } else {
-        console.error("An unknown error occurred during login.");
-      }
+    } catch (error: any) {
       setLoading(false);
+      if (error.status === 404) {
+        alert("User not found. Please check your username.");
+      } else if (error.status === 401) {
+        alert("Incorrect password. Please try again.");
+      } else {
+        alert(`Something went wrong during the login:\n${error.message}`);
+      }
     }
   };
 
